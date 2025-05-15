@@ -1,23 +1,39 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Node modules folder ko ignore karo
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Build output folder
+build/
 
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
+# Environment variables file
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Editor folders (VS Code, etc.)
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+coverage/
+*.log
+
+# Optional: dependency directories
+.pnp/
+.pnp.js
+
+# Optional: testing coverage folder
+coverage/
+
+# Optional: React Native specific (agar use karte ho to)
+.expo/
