@@ -3,7 +3,12 @@ import { motion } from 'framer-motion'
 import { supabase } from '../services/supabase'
 import './Auth.css'
 
-
+// my auth is finnaly working
+// i am using supabase for authentication and storing user data in a postgres database
+// i am using dicebear for generating avatar url
+// i am using framer motion for animations
+// i am using react for frontend
+// i am using tailwind for styling
 export default function Auth({ onAuthSuccess }) {
   const [formData, setFormData] = useState({
     name: '',

@@ -4,6 +4,7 @@ import Auth from './components/Auth'
 import Dashboard from './components/Dashboard'
 import { supabase } from './supabaseClient'
 
+//
 function App() {
   const [session, setSession] = useState(null)
   const [profile, setProfile] = useState(null)
