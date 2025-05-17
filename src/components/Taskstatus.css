@@ -1,0 +1,117 @@
+.task-status-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .task-status-container h2 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+  
+  .log-heading {
+    margin-top: 40px;
+  }
+  
+  .task-table,
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .task-table th,
+  .task-table td,
+  .log-table th,
+  .log-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .task-table th,
+  .log-table th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .task-table tr:hover,
+  .log-table tr:hover {
+    background: #f9fafb;
+  }
+  
+  .status-select {
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #374151;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .status-select:hover {
+    border-color: #3b82f6;
+  }
+  
+  .status-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  
+  .loading {
+    font-size: 1.125rem;
+    color: #4b5563;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .error {
+    font-size: 1.125rem;
+    color: #ef4444;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .task-table th,
+    .task-table td,
+    .log-table th,
+    .log-table td {
+      padding: 8px;
+      font-size: 0.875rem;
+    }
+  
+    .status-select {
+      max-width: 100%;
+    }
+  
+    .task-table,
+    .log-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  .update-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .current-stage-label {
+    font-size: 0.85rem;
+    color: #888;
+  }
+  

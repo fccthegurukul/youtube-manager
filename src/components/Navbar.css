@@ -1,0 +1,234 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: auto;
+}
+
+/* Title with brand and badge */
+.navbar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #371f1f;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product-badge {
+  background-color: #ffdfdf;
+  color: #3730a3;
+  font-size: 0.5rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  margin-top: 0.25rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Right Section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Desktop user info */
+.user-info-desktop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.navbar-name {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+.navbar-role {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  background-color: #e0e7ff;
+  color: #3730a3;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.navbar-role.admin {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Logout Button */
+.logout-button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #dc2626;
+}
+
+/* Hamburger Button */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100;
+}
+
+.hamburger-btn .bar {
+  width: 100%;
+  height: 3px;
+  background-color: #4f46e5;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation */
+.hamburger-btn .bar.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn .bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn .bar.open:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px; /* exactly below navbar */
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 15px;
+  width: 220px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1050;
+}
+
+.dropdown-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dropdown-user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-user-info .navbar-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.dropdown-user-info .navbar-role {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+}
+
+/* Dropdown Logout Button */
+.logout-button.dropdown-logout {
+  width: 100%;
+  padding: 0.5rem 0;
+  font-weight: 600;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  /* Navbar fixed height */
+  .navbar {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  /* Make brand + badge horizontal and aligned center vertically */
+  .navbar-title {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .product-badge {
+    font-size: 0.55rem;
+    padding: 2px 6px;
+  }
+
+  /* Hide desktop user info on mobile */
+  .user-info-desktop {
+    display: none;
+  }
+
+  /* Show hamburger button */
+  .hamburger-btn {
+    display: flex;
+  }
+}
+
+@media (max-width: 350px) {
+  .dropdown-menu {
+    width: 180px;
+    padding: 8px 12px;
+  }
+
+  .dropdown-user-info .navbar-name {
+    font-size: 0.9rem;
+  }
+
+  .dropdown-user-info .navbar-role {
+    font-size: 0.7rem;
+  }
+}

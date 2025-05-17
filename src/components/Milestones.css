@@ -1,0 +1,172 @@
+:root {
+    /* Color palette */
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --background-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --success-color: #22c55e;
+    --warning-color: #facc15;
+    --text-primary: #111827;
+    --text-secondary: #444;
+    --text-muted: #666;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+  
+    /* Spacing & typography */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+  
+    --font-base: 1rem;
+    --font-large: 1.25rem;
+    --font-small: 0.875rem;
+  
+    --border-radius: 1.25rem;
+    --transition-speed: 0.3s;
+  }
+  
+  /* Global resets */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    font-size: 100%;
+  }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  
+  /* Container */
+  .milestones-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+    text-align: center;
+  }
+  .milestones-container h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-xs);
+  }
+  .milestones-container .subtitle {
+    font-size: var(--font-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+  
+  /* Grid layout */
+  .milestones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+  
+  /* Card styling */
+  .milestone-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 16px var(--shadow-color);
+    padding: var(--space-lg);
+    text-align: left;
+    position: relative;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  }
+  .milestone-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 24px var(--shadow-color);
+  }
+  
+  .milestone-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .milestone-icon {
+    font-size: 1.5rem;
+  }
+  .milestone-header h3 {
+    font-size: var(--font-large);
+    color: var(--text-primary);
+  }
+  
+  /* Progress bar */
+  .progress-bar {
+    background: #e5e7eb;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: 0.75rem;
+    margin: var(--space-sm) 0;
+  }
+  .progress-fill {
+    background: var(--primary-color);
+    height: 100%;
+    width: 0;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  .progress-text {
+    font-size: var(--font-small);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+  }
+  
+  /* Extra info text */
+  .target-days,
+  .time-remaining,
+  .completion-date {
+    font-size: var(--font-small);
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+  }
+  
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-small);
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    margin-top: var(--space-sm);
+  }
+  .badge-complete {
+    background-color: var(--success-color);
+    color: #fff;
+  }
+  .badge-pending {
+    background-color: var(--warning-color);
+    color: var(--text-primary);
+  }
+  
+  /* Celebration popup */
+  .celebration-popup {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: var(--text-primary);
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-base);
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 24px var(--shadow-color);
+    z-index: 999;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .milestones-container h2 {
+      font-size: 1.75rem;
+    }
+    .milestone-header h3 {
+      font-size: 1.125rem;
+    }
+  }
+  
