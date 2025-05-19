@@ -8,12 +8,12 @@ export default function Milestones() {
   const [celebratedIds, setCelebratedIds] = useState([]);
 
   // 📅 Milestone start date
-  const milestoneStartDate = new Date('2025-05-15T00:00:00');
+  const milestoneStartDate = new Date('2025-05-20T00:00:00');
 
   // 🔢 Current stats (update manually)
   const currentSubscribers = 6;
   const currentWatchTime = 4;
-  const currentUploads = 2;
+  const currentUploads = 1;
 
   // 🗂️ Milestones
   const milestones = [
@@ -23,7 +23,7 @@ export default function Milestones() {
     { id: 3, name: '1000 Subscribers', target: 1000, type: 'subscribers', celebrate: true, targetDays: 45 },
     { id: 4, name: '4000h Watch Time', target: 4000, type: 'watchtime', celebrate: true, targetDays: 60 },
     { id: 5, name: '1 Video Uploaded', target: 1, type: 'uploading', celebrate: true, targetDays: 5, completedDate: '2025-05-15T10:50:00' },
-    { id: 6, name: '10 Videos Uploaded', target: 10, type: 'uploading', targetDays: 30 },
+    { id: 6, name: '100 Videos Uploaded', target: 100, type: 'uploading', targetDays: 30 },
   ];
 
   // 📊 Progress calculator

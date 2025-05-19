@@ -3,12 +3,6 @@ import { motion } from 'framer-motion'
 import { supabase } from '../services/supabase'
 import './Auth.css'
 
-// my auth is finnaly working
-// i am using supabase for authentication and storing user data in a postgres database
-// i am using dicebear for generating avatar url
-// i am using framer motion for animations
-// i am using react for frontend
-// i am using tailwind for styling
 export default function Auth({ onAuthSuccess }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -18,7 +12,7 @@ export default function Auth({ onAuthSuccess }) {
   })
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(true) // START IN LOGIN MODE
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
@@ -33,10 +27,7 @@ export default function Auth({ onAuthSuccess }) {
 
     const { email, password, name, phone } = formData
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
+    const { data, error } = await supabase.auth.signUp({ email, password })
 
     if (error) {
       setError(error.message)
@@ -77,10 +68,7 @@ export default function Auth({ onAuthSuccess }) {
     setMessage('')
 
     const { email, password } = formData
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setError(error.message)
@@ -92,20 +80,15 @@ export default function Auth({ onAuthSuccess }) {
   }
 
   return (
-    <motion.div
-      className="auth-wrapper"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-    >
+    <motion.div className="auth-wrapper" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <motion.form
         className="auth-form"
         onSubmit={isLogin ? handleLogin : handleSignup}
-        initial={{ y: -50 }}
+        initial={{ y: -40 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 100 }}
       >
-        <h2>{isLogin ? 'Login' : 'Signup'}</h2>
+        <h2>{isLogin ? 'Login to your account' : 'Create an account'}</h2>
         {error && <p className="error">{error}</p>}
         {message && <p className="message">{message}</p>}
 
@@ -119,6 +102,7 @@ export default function Auth({ onAuthSuccess }) {
             required
           />
         )}
+
         <input
           type="email"
           name="email"
@@ -127,6 +111,7 @@ export default function Auth({ onAuthSuccess }) {
           onChange={handleChange}
           required
         />
+
         <input
           type="password"
           name="password"
@@ -135,11 +120,12 @@ export default function Auth({ onAuthSuccess }) {
           onChange={handleChange}
           required
         />
+
         {!isLogin && (
           <input
             type="tel"
             name="phone"
-            placeholder="Phone"
+            placeholder="Phone Number"
             value={formData.phone}
             onChange={handleChange}
           />
@@ -149,7 +135,7 @@ export default function Auth({ onAuthSuccess }) {
           {isSubmitting ? 'Please wait...' : isLogin ? 'Login' : 'Sign Up'}
         </button>
 
-        <p style={{ marginTop: '1rem' }}>
+        <p className="switch-text">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
           <button
             type="button"
@@ -160,7 +146,7 @@ export default function Auth({ onAuthSuccess }) {
               setIsLogin(!isLogin)
             }}
           >
-            {isLogin ? 'Sign up' : 'Login'}
+            {isLogin ? 'Sign Up' : 'Login'}
           </button>
         </p>
       </motion.form>
