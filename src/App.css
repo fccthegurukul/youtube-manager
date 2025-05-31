@@ -74,8 +74,15 @@
 }
 
 .nav-item.active {
-  color: #4f46e5;
+  color: #0200251f;
   font-weight: bold;
+}
+
+.nav-item:focus,
+.nav-item:active {
+  outline: none;
+  color: #6b7280;
+  box-shadow: none;
 }
 
 .welcome-section {
