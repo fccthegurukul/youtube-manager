@@ -220,6 +220,42 @@
   font-weight: 600;
 }
 
+/* Remove blue highlight on tap/focus/active for navbar and hamburger */
+.navbar,
+.navbar *:focus,
+.navbar *:active,
+.hamburger-btn:focus,
+.hamburger-btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
+/* Remove blue color on tap/click for hamburger bars */
+.hamburger-btn .bar:active,
+.hamburger-btn .bar:focus {
+  background-color: #4b5563 !important;
+}
+
+/* Remove blue highlight on tap/focus for brand and badge */
+.brand-name:focus,
+.brand-name:active,
+.product-badge:focus,
+.product-badge:active {
+  outline: none !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+/* Remove blue highlight on tap/focus for user info */
+.user-info-desktop:focus,
+.user-info-desktop:active,
+.navbar-avatar:focus,
+.navbar-avatar:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .navbar {
