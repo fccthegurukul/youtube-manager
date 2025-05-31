@@ -69,8 +69,8 @@
   margin-bottom: 0.1rem;
 }
 
-.nav-item:hover {
-  color: #4f46e5; /* indigo-600 */
+.nav-item:active {
+  color: #6b7280;
 }
 
 .nav-item.active {
