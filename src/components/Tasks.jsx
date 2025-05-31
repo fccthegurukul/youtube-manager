@@ -76,7 +76,7 @@ export default function Tasks({ profile }) {
     }
 
     const confirmed = window.confirm(
-      'यदि आपने टास्क को पूरा करके ऑफिस को भेज दिया है, तो कृपया "OK" पर क्लिक करें। अन्यथा, "Cancel" पर क्लिक करें।'
+      'यदि आपने विडियो रिकॉर्ड करके ड्राइव में अपलोड कर दिया है, तो कृपया "OK" पर क्लिक करें। अन्यथा, "Cancel" पर क्लिक करें।'
     )
     if (!confirmed) return
 
