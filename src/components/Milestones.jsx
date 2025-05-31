@@ -18,9 +18,9 @@ export default function Milestones() {
   // 🗂️ Milestones
   const milestones = [
     { id: 0, name: '1 Subscriber', target: 1, type: 'subscribers', celebrate: true, targetDays: 4, completedDate: '2025-05-15T10:48:00' },
-    { id: 1, name: '100 Subscribers', target: 100, type: 'subscribers', targetDays: 15 },
-    { id: 2, name: '500 Subscribers', target: 500, type: 'subscribers', targetDays: 35 },
-    { id: 3, name: '1000 Subscribers', target: 1000, type: 'subscribers', celebrate: true, targetDays: 45 },
+    { id: 1, name: '100 Subscribers', target: 100, type: 'subscribers', targetDays: 30 },
+    { id: 2, name: '500 Subscribers', target: 500, type: 'subscribers', targetDays: 45 },
+    { id: 3, name: '1000 Subscribers', target: 1000, type: 'subscribers', celebrate: true, targetDays: 60 },
     { id: 4, name: '4000h Watch Time', target: 4000, type: 'watchtime', celebrate: true, targetDays: 60 },
     { id: 5, name: '1 Video Uploaded', target: 1, type: 'uploading', celebrate: true, targetDays: 5, completedDate: '2025-05-15T10:50:00' },
     { id: 6, name: '100 Videos Uploaded', target: 100, type: 'uploading', targetDays: 30 },
