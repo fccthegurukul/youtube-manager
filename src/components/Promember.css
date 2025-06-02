@@ -1,0 +1,459 @@
+/* Variables for consistency */
+:root {
+    --primary-color: #4CAF50; /* Green */
+    --primary-dark: #388E3C;
+    --accent-color: #FFC107; /* Amber */
+    --text-color: #333;
+    --text-light: #666;
+    --bg-light: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Modern sans-serif font */
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-light);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- General Utilities & Icons --- */
+.promember-icon {
+    width: 1.2em; /* Standard icon size */
+    height: 1.2em;
+    vertical-align: middle;
+    margin-right: var(--spacing-xs);
+    flex-shrink: 0; /* Prevent icons from shrinking */
+}
+
+.promember-small-icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 6px;
+}
+
+.promember-large-icon {
+    width: 3em;
+    height: 3em;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+}
+
+.promember-spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- Container & Header --- */
+.promember-tasks-container {
+    max-width: 1200px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-lg);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px var(--shadow-light);
+}
+
+.promember-tasks-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center header content */
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.promember-tasks-header h2 {
+    font-size: 2.2em;
+    color: var(--primary-color);
+    margin: 0;
+    font-weight: 700;
+}
+
+/* --- Filter Section --- */
+.promember-filter-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.promember-filter-container label {
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.promember-filter-container select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    font-size: 1em;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.promember-filter-container select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+/* --- Status Messages (Loading, Error, No Tasks) --- */
+.promember-status-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    font-size: 1.1em;
+    font-weight: 500;
+    gap: var(--spacing-sm);
+}
+
+.promember-loading {
+    background-color: #e3f2fd; /* Light blue */
+    color: #1976d2; /* Darker blue */
+}
+
+.promember-error {
+    background-color: #ffe0b2; /* Light orange */
+    color: #f57c00; /* Darker orange */
+}
+
+.promember-no-tasks {
+    flex-direction: column;
+    text-align: center;
+    background-color: #f1f8e9; /* Light green */
+    color: var(--primary-dark);
+    padding: var(--spacing-xl);
+    border: 2px dashed var(--primary-color);
+}
+
+/* --- Task List --- */
+.promember-tasks-list {
+    display: grid;
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+}
+
+/* --- Task Card --- */
+.promember-task-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: 0 2px 10px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.promember-task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px var(--shadow-medium);
+}
+
+.promember-published-task {
+    border-left: 5px solid var(--primary-color);
+    background-color: #e8f5e9; /* Lighter green for published */
+}
+
+.promember-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.promember-task-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin: 0;
+    word-break: break-word; /* Ensure long titles wrap */
+}
+
+.promember-status-badge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 50px; /* Pill shape */
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap; /* Prevent badge text from wrapping */
+    margin-left: var(--spacing-sm); /* Spacing from title */
+}
+
+/* Status specific badge colors */
+.promember-status-badge.assigned { background-color: #2196F3; } /* Blue */
+.promember-status-badge.recorded { background-color: #4CAF50; } /* Green */
+.promember-status-badge.editing { background-color: #FF9800; } /* Orange */
+.promember-status-badge.uploading { background-color: #9C27B0; } /* Purple */
+.promember-status-badge.published { background-color: #009688; } /* Teal */
+.promember-status-badge.pending { background-color: #757575; } /* Grey for pending */
+.promember-status-badge.completed { background-color: #607D8B; } /* Blue Grey for generic completed */
+
+
+.promember-task-class {
+    font-size: 0.95em;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.promember-download-link,
+.promember-no-file {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.promember-download-link:hover {
+    color: var(--primary-dark);
+}
+
+.promember-no-file {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* --- Action Button --- */
+.promember-complete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    margin-top: auto; /* Push button to bottom */
+}
+
+.promember-complete-button:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.promember-complete-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* --- Progress Tracker --- */
+.promember-status-tracking {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px dashed var(--border-color);
+}
+
+.promember-tracking-time {
+    font-size: 0.85em;
+    color: var(--text-light);
+    text-align: right;
+    margin-bottom: var(--spacing-sm);
+}
+
+.promember-progress-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-xs); /* Reduced gap */
+    padding: var(--spacing-sm) 0;
+    position: relative;
+}
+
+.promember-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Ensure stage content is above connectors */
+    flex: 1; /* Distribute stages evenly */
+    min-width: 70px; /* Ensure stages don't get too narrow */
+}
+
+.promember-stage-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--border-color); /* Default grey */
+    border: 2px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.promember-stage-label {
+    font-size: 0.75em;
+    color: var(--text-light);
+    margin-top: var(--spacing-xs);
+    white-space: nowrap; /* Prevent stage labels from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.3s ease;
+}
+
+.promember-stage-completed .promember-stage-circle {
+    background-color: var(--primary-color);
+    border-color: var(--primary-dark);
+}
+
+.promember-stage-completed .promember-stage-label {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.promember-pulse-dot {
+    position: absolute;
+    top: -5px; /* Position above the circle */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+    border: 2px solid white; /* White border for visibility */
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.7);
+}
+
+@keyframes pulse {
+    0% { transform: translateX(-50%) scale(0.8); opacity: 0.7; }
+    50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    100% { transform: translateX(-50%) scale(0.8); opacity: 0.7; }
+}
+
+.promember-connector {
+    height: 2px;
+    background-color: var(--border-color);
+    flex-grow: 1; /* Fill space between stages */
+    margin: 0 -2px; /* Overlap slightly with circles */
+    transition: background-color 0.3s ease;
+}
+
+.promember-connector-completed {
+    background-color: var(--primary-color);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .promember-tasks-container {
+        margin: var(--spacing-lg) var(--spacing-md);
+        padding: var(--spacing-lg);
+    }
+
+    .promember-tasks-header h2 {
+        font-size: 1.8em;
+    }
+
+    .promember-filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .promember-tasks-list {
+        grid-template-columns: 1fr; /* Single column layout on small screens */
+    }
+
+    .promember-task-card {
+        padding: var(--spacing-md);
+    }
+
+    .promember-task-title {
+        font-size: 1.2em;
+    }
+
+    .promember-status-badge {
+        margin-top: var(--spacing-sm); /* Stack badge below title if space is tight */
+        margin-left: 0;
+    }
+
+    .promember-task-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .promember-progress-tracker {
+        flex-wrap: wrap; /* Allow stages to wrap if needed */
+        justify-content: flex-start; /* Align stages to start */
+    }
+
+    .promember-stage {
+        flex: none; /* Don't grow, maintain specific width */
+        width: calc(33% - 10px); /* Approx 3 items per row, adjust as needed */
+        margin-bottom: var(--spacing-md); /* Space between rows */
+    }
+
+    .promember-connector {
+        display: none; /* Hide connectors in very small viewports for simplicity */
+    }
+
+    .promember-progress-tracker::before { /* Add a line for general progress if connectors are hidden */
+        content: '';
+        position: absolute;
+        top: 15px; /* Adjust to align with circles */
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        height: 2px;
+        background-color: var(--border-color);
+        z-index: 0;
+    }
+
+    .promember-stage-completed .promember-stage-circle {
+        position: relative; /* Needed for z-index to bring circles above the line */
+        z-index: 2;
+    }
+
+    .promember-pulse-dot {
+        top: -2px; /* Adjust position for smaller circles */
+    }
+}
+
+@media (max-width: 480px) {
+    .promember-tasks-container {
+        padding: var(--spacing-md);
+    }
+
+    .promember-tasks-header h2 {
+        font-size: 1.6em;
+    }
+
+    .promember-filter-container select {
+        width: 100%;
+    }
+
+    .promember-stage-label {
+        font-size: 0.7em;
+    }
+}

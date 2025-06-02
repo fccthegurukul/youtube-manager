@@ -1,0 +1,85 @@
+/* AdminPanel.css */
+
+.admin-panel-container {
+  padding: 2rem;
+  background-color: #ffffff; /* White background */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
+  max-width: 450px;
+  margin: 2rem auto; /* Center the container */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center; /* Center the h3 */
+}
+
+.admin-panel-container h3 {
+  color: #212529; /* Darker heading */
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.admin-panel-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between form elements */
+  margin-bottom: 1.5rem; /* Space before the button */
+}
+
+.admin-panel-container input[type="text"],
+.admin-panel-container select {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #495057;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: #f8f9fa; /* Light grey background for inputs/selects */
+}
+
+.admin-panel-container input[type="text"]:focus,
+.admin-panel-container select:focus {
+  border-color: #6f42c1; /* Purple border on focus */
+  box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25); /* Subtle purple shadow on focus */
+  outline: none;
+}
+
+.admin-panel-container button {
+  padding: 0.8rem 1.5rem;
+  background-color: #6f42c1; /* Purple button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.admin-panel-container button:hover {
+  background-color: #5935a4; /* Darker purple on hover */
+  transform: translateY(-2px);
+}
+
+.admin-panel-container button:active {
+  transform: translateY(0);
+}
+
+/* Reusing loading/error messages for consistency */
+.admin-panel-container .loading-message,
+.admin-panel-container .error-message {
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.admin-panel-container .loading-message {
+  background-color: #e6f7ff; /* Light blue */
+  color: #0056b3;
+}
+
+.admin-panel-container .error-message {
+  background-color: #fff0f5; /* Light pink */
+  color: #c00040;
+}
