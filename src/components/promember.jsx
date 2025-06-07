@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../supabaseClient'; // Path sahi hona chahiye
+import { supabase } from '../supabaseClient';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock, FileDown, AlertCircle, Loader2, FolderCheck } from 'lucide-react';
-import './Promember.css'; // Import the new CSS file
+import './Promember.css';
 
 const statusOptions = ['assigned', 'recorded', 'editing', 'uploading', 'published'];
 
-export default function Promember({ profile }) { // 'profile' prop receive karein
+export default function Promember({ profile }) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
@@ -16,10 +16,10 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
 
   useEffect(() => {
     fetchTasks();
-  }, [profile]); // Profile change hone par tasks re-fetch karein
+  }, [profile]);
 
   const fetchTasks = async () => {
-    if (!profile?.id) { // Ensure profile and id are available
+    if (!profile?.id) {
       setLoading(false);
       setErrorMsg('User profile not loaded. Please log in again.');
       return;
@@ -31,7 +31,7 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
-      .eq('assigned_to', profile.id) // Assigned tasks user ke ID se fetch karein
+      .eq('assigned_to', profile.id)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -40,7 +40,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
       console.error('Error fetching tasks for Pro Member:', error);
     } else {
       setTasks(data);
-      // 'completed' tasks ke liye latest status fetch karein
       const completedIds = data.filter(t => t.status === 'completed').map(t => t.id);
       fetchCompletedStatuses(completedIds);
     }
@@ -57,7 +56,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
       .order('updated_at', { ascending: false });
 
     if (!error && data) {
-      // Map banaye latest status ke liye, agar multiple entries hain toh latest waali rakhein
       const map = {};
       data.forEach(item => {
         if (!map[item.task_id] || new Date(item.updated_at) > new Date(map[item.task_id].updated_at)) {
@@ -66,8 +64,35 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
       });
       setCompletedTaskStatusMap(map);
     } else if (error) {
-        console.error('Error fetching completed task tracking statuses:', error);
+      console.error('Error fetching completed task tracking statuses:', error);
     }
+  };
+
+  const handleDownload = async (taskId, userId, privateLink) => {
+    const { data: task, error: taskError } = await supabase
+      .from('tasks')
+      .select('assigned_to')
+      .eq('id', taskId)
+      .single();
+
+    if (taskError || task.assigned_to !== userId) {
+      alert('You are not authorized to download this file.');
+      return;
+    }
+
+    const { error } = await supabase.from('file_downloads').insert({
+      task_id: taskId,
+      user_id: userId,
+      download_time: new Date().toISOString(),
+    });
+
+    if (error) {
+      console.error('Failed to log download:', error);
+      alert('Failed to log download. Please try again.');
+      return;
+    }
+
+    window.open(privateLink, '_blank');
   };
 
   async function handleComplete(taskId) {
@@ -82,94 +107,87 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
     if (!confirmed) return;
 
     setSubmittingTaskId(taskId);
-    await new Promise(res => setTimeout(res, 1500)); // Simulate a delay for better UX
+    await new Promise(res => setTimeout(res, 1500));
 
     try {
-        // 1. Update task status in 'tasks' table to 'completed'
-        const { error: updateError } = await supabase
-            .from('tasks')
-            .update({ status: 'completed' }) // Status 'completed' karein
-            .eq('id', taskId)
-            .eq('assigned_to', profile.id);
+      const { error: updateError } = await supabase
+        .from('tasks')
+        .update({ status: 'completed' })
+        .eq('id', taskId)
+        .eq('assigned_to', profile.id);
 
-        if (updateError) {
-            throw new Error(`Failed to mark task as recorded: ${updateError.message}`);
-        }
+      if (updateError) {
+        throw new Error(`Failed to mark task as recorded: ${updateError.message}`);
+      }
 
-        // 2. Record completion in 'task_completions' table
-        const { error: insertCompletionError } = await supabase.from('task_completions').insert([
-            {
-                task_id: taskId,
-                user_id: profile.id,
-                completed_at: new Date().toISOString(),
-            },
-        ]);
-        if (insertCompletionError) {
-            console.warn('Warning: Failed to record completion in task_completions table. This might be a duplicate entry or other issue. Error:', insertCompletionError.message);
-        }
+      const { error: insertCompletionError } = await supabase.from('task_completions').insert([
+        {
+          task_id: taskId,
+          user_id: profile.id,
+          completed_at: new Date().toISOString(),
+        },
+      ]);
+      if (insertCompletionError) {
+        console.warn('Warning: Failed to record completion in task_completions table:', insertCompletionError.message);
+      }
 
-        const currentTime = new Date().toISOString();
+      const currentTime = new Date().toISOString();
+      const { data: existingTracking, error: fetchTrackingError } = await supabase
+        .from('task_status_tracking')
+        .select('id')
+        .eq('task_id', taskId)
+        .single();
 
-        // 3. Update or Insert into 'task_status_tracking' (current stage to 'recorded')
-        const { data: existingTracking, error: fetchTrackingError } = await supabase
-            .from('task_status_tracking')
-            .select('id')
-            .eq('task_id', taskId)
-            .single();
+      if (fetchTrackingError && fetchTrackingError.code !== 'PGRST116') {
+        console.error('Error checking existing tracking status:', fetchTrackingError.message);
+      }
 
-        if (fetchTrackingError && fetchTrackingError.code !== 'PGRST116') { // PGRST116 means "no rows found"
-            console.error('Error checking existing tracking status:', fetchTrackingError.message);
-        }
-
-        if (existingTracking) {
-            // If entry exists, update it
-            const { error: trackingUpdateError } = await supabase
-                .from('task_status_tracking')
-                .update({
-                    current_stage: 'recorded', // Set stage to 'recorded'
-                    updated_at: currentTime,
-                    updated_by: profile.id,
-                })
-                .eq('task_id', taskId);
-
-            if (trackingUpdateError) {
-                console.error('Error updating tracking status:', trackingUpdateError.message);
-            }
-        } else {
-            // If no entry, insert a new one
-            const { error: trackingInsertError } = await supabase
-                .from('task_status_tracking')
-                .insert({
-                    task_id: taskId,
-                    current_stage: 'recorded', // Set stage to 'recorded'
-                    updated_at: currentTime,
-                    updated_by: profile.id,
-                });
-
-            if (trackingInsertError) {
-                console.error('Error inserting tracking status:', trackingInsertError.message);
-            }
-        }
-
-        // 4. Log into task_status_history for audit trail
-        const { error: historyError } = await supabase.from('task_status_history').insert({
-            task_id: taskId,
-            current_stage: 'recorded', // Log this specific stage
+      if (existingTracking) {
+        const { error: trackingUpdateError } = await supabase
+          .from('task_status_tracking')
+          .update({
+            current_stage: 'recorded',
             updated_at: currentTime,
             updated_by: profile.id,
-        });
+          })
+          .eq('task_id', taskId);
 
-        if (historyError) {
-            console.error('Error inserting status history:', historyError.message);
+        if (trackingUpdateError) {
+          console.error('Error updating tracking status:', trackingUpdateError.message);
         }
+      } else {
+        const { error: trackingInsertError } = await supabase
+          .from('task_status_tracking')
+          .insert({
+            task_id: taskId,
+            current_stage: 'recorded',
+            updated_at: currentTime,
+            updated_by: profile.id,
+          });
 
-        alert('Task successfully marked as recorded!');
+        if (trackingInsertError) {
+          console.error('Error inserting tracking status:', trackingInsertError.message);
+        }
+      }
+
+      const { error: historyError } = await supabase.from('task_status_history').insert({
+        task_id: taskId,
+        current_stage: 'recorded',
+        updated_at: currentTime,
+        updated_by: profile.id,
+      });
+
+      if (historyError) {
+        console.error('Error inserting status history:', historyError.message);
+      }
+
+      alert('Task successfully marked as recorded!');
     } catch (error) {
-        alert(error.message); // Show specific error message to user
-        console.error('Error in handleComplete:', error);
+      alert(error.message);
+      console.error('Error in handleComplete:', error);
     } finally {
-        setSubmittingTaskId(null);
-        fetchTasks(); // Re-fetch all tasks to update UI with latest statuses
+      setSubmittingTaskId(null);
+      fetchTasks();
     }
   }
 
@@ -189,7 +207,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
               {idx > 0 && <div className={`promember-connector ${connectorClass}`}></div>}
               <div className={`promember-stage ${stageClass}`}>
                 <div className="promember-stage-circle"></div>
-                {/* Stage label mein capitalize kiya gaya hai */}
                 <span className="promember-stage-label">{stage.charAt(0).toUpperCase() + stage.slice(1)}</span>
                 {isCurrent && <span className="promember-pulse-dot"></span>}
               </div>
@@ -217,23 +234,17 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
   }
 
   let filteredTasks = tasks.filter(task => {
-    // Get the actual current stage from tracking, fallback to task.status if no tracking yet
     const tracking = completedTaskStatusMap[task.id];
-    const actualCurrentStage = tracking?.current_stage || task.status; // Yeh actual stage hai
-
+    const actualCurrentStage = tracking?.current_stage || task.status;
     if (stageFilter === 'all') return true;
     return actualCurrentStage === stageFilter;
   });
 
-  // Sort tasks: pending/in-progress first, then published/completed at bottom
   filteredTasks.sort((a, b) => {
     const aStage = completedTaskStatusMap[a.id]?.current_stage || a.status;
     const bStage = completedTaskStatusMap[b.id]?.current_stage || b.status;
-
-    // Prioritize non-published/non-completed tasks to be at the top
-    if (aStage === 'published' && bStage !== 'published') return 1; // a comes after b
-    if (aStage !== 'published' && bStage === 'published') return -1; // a comes before b
-    // If both are published or both are not published, then sort by creation date (newest first)
+    if (aStage === 'published' && bStage !== 'published') return 1;
+    if (aStage !== 'published' && bStage === 'published') return -1;
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
@@ -244,7 +255,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
         <h2>Your Video Production Content</h2>
       </header>
 
-      {/* Stage filter dropdown */}
       <div className="promember-filter-container">
         <label htmlFor="stage-filter">Filter by Stage: </label>
         <select
@@ -270,7 +280,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
         <div className="promember-tasks-list">
           {filteredTasks.map((task, index) => {
             const tracking = completedTaskStatusMap[task.id];
-            // Actual current stage is from tracking or task.status if not yet tracked
             const currentStage = tracking?.current_stage || task.status;
             const isPublished = currentStage === 'published';
 
@@ -286,13 +295,12 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
                 <div className="promember-task-header">
                   <h3 className="promember-task-title">{task.title}</h3>
                   <span className={`promember-status-badge ${currentStage}`}>
-                    {/* Display actual current stage from tracking or fallback */}
                     {currentStage.charAt(0).toUpperCase() + currentStage.slice(1)}
                   </span>
                 </div>
 
                 <p className="promember-task-class">
-                  <strong>Target Class:</strong> {task.className || 'N/A'}
+                  <strong>Target Class:</strong> {task.class || 'N/A'}
                 </p>
 
                 {task.drive_link ? (
@@ -305,10 +313,21 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
                     <FileDown className="promember-icon promember-small-icon" /> Access PDF/PPT Content
                   </a>
                 ) : (
-                  <p className="promember-no-file">No link provided</p>
+                  <p className="promember-no-file">No content link provided</p>
                 )}
 
-                {/* 'Mark as Recorded' button only if task status is 'pending' */}
+                {task.private_drive_link ? (
+                  <button
+                    onClick={() => handleDownload(task.id, profile.id, task.private_drive_link)}
+                    className="promember-download-button-2"
+                  >
+                    <FileDown className="promember-icon promember-small-icon" /> Access Private PDF/PPT
+
+                  </button>
+                ) : (
+                  <p className="promember-no-file">No private PPT/PDF provided</p>
+                )}
+
                 {task.status === 'pending' && (
                   <button
                     onClick={() => handleComplete(task.id)}
@@ -328,7 +347,6 @@ export default function Promember({ profile }) { // 'profile' prop receive karei
                   </button>
                 )}
 
-                {/* Show progress tracker if task is not pending (meaning it has been "completed" or beyond) */}
                 {task.status !== 'pending' && tracking && (
                   <div className="promember-status-tracking">
                     <p className="promember-tracking-time">

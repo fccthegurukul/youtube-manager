@@ -237,9 +237,28 @@ body {
     color: var(--primary-dark);
 }
 
-.promember-no-file {
-    color: var(--text-light);
-    font-style: italic;
+/* Match Download Private File button to Access PDF/PPT Content link */
+.promember-download-button-2 {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    transition: color 0.2s ease-in-out;
+    color: #8b8b8a;
+}
+
+.promember-download-button-2:hover,
+.promember-download-button-2:focus {
+    color: var(--primary-dark);
+    outline: none;
 }
 
 /* --- Action Button --- */
