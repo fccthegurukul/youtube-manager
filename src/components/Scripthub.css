@@ -1,7 +1,8 @@
 /* Container base remains same */
 .script-hub-container {
-  padding: 1rem;
-  max-width: 1400px;
+  padding: 10px;
+  /* max-width: 1400px; */
+  max-width: 100%;
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

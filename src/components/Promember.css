@@ -60,7 +60,7 @@ body {
 
 /* --- Container & Header --- */
 .promember-tasks-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: var(--spacing-xl) auto;
     padding: var(--spacing-lg);
     background-color: var(--card-bg);
@@ -503,8 +503,8 @@ body {
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
     .promember-tasks-container {
-        margin: var(--spacing-lg) var(--spacing-md);
-        padding: var(--spacing-lg);
+        margin: 10px;
+        padding: 10px;
     }
 
     .promember-tasks-header h2 {
@@ -576,7 +576,7 @@ body {
 
 @media (max-width: 480px) {
     .promember-tasks-container {
-        padding: var(--spacing-md);
+        padding: 10px;
     }
 
     .promember-tasks-header h2 {

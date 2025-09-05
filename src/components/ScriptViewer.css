@@ -96,18 +96,24 @@ body.script-viewer-page .bottom-nav {
 .top-controls { display: flex; gap: 8px; }
 
 /* --- Content Area --- */
+/* --- Content Area --- */
 .slide-content-area {
   flex-grow: 1;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex;         <-- YE HATAYEIN */
+  /* align-items: center;   <-- YE HATAYEIN */
+  /* justify-content: center; <-- YE HATAYEIN */
   padding: 24px 16px;
-  overflow-y: auto;
+  overflow-y: auto; /* Scroll yahan se handle hoga */
   scroll-behavior: smooth;
 }
 
-.slide-wrapper { width: 100%; max-width: 720px; }
+.slide-wrapper {
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;   /* <-- YE JODEIN */
+  margin-right: auto;  /* <-- YE JODEIN */
+}
 
 /* Animations */
 .slide-animation-next { animation: slideInFromRight 0.35s ease-out; }
