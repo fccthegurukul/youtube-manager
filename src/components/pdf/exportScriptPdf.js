@@ -1,7 +1,10 @@
 // Hindi-safe printing that always shows content using a Blob URL
 
 function escapeHtml(s = '') {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function buildPrintableHtml(script) {
@@ -55,24 +58,15 @@ function buildPrintableHtml(script) {
     .mood { color:#666; font-style: italic; margin: 0 0 6px; }
     .content { white-space:pre-wrap; line-height:1.72; font-size:16px; margin:0 0 8px; font-family:inherit; word-wrap:break-word; }
 
-    .toolbar { position: sticky; top:0; z-index:1; background:#f8fafc; border-bottom:1px solid #e5e7eb; padding:10px 16px; display:flex; gap:8px; justify-content:flex-end; }
-    .btn { background:#3f51b5; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; font-weight:600; }
-    .btn.secondary { background:#2d2d2d; }
-
     @page { size: A4; margin: 18mm 16mm 20mm; }
     @media print {
       .page { max-width:none; margin:0; padding:0; }
       h1, h2 { break-after: avoid; page-break-after: avoid; }
       .sec { page-break-inside: avoid; break-inside: avoid; }
-      .no-print { display:none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="toolbar no-print">
-    <button class="btn" onclick="window.print()">Print / Save PDF</button>
-    <button class="btn secondary" onclick="window.close()">Close</button>
-  </div>
   <div class="page">
     <h1>${title}</h1>
     <div class="meta">${metaLine}</div>
@@ -83,8 +77,7 @@ function buildPrintableHtml(script) {
   <script>
     (async function() {
       try { if (document.fonts && document.fonts.ready) { await document.fonts.ready; } } catch(e) {}
-      setTimeout(() => { window.focus(); window.print(); }, 150);
-      window.onafterprint = () => { window.close(); };
+      setTimeout(() => { window.focus(); window.print(); }, 200);
     })();
   </script>
 </body>
@@ -93,15 +86,28 @@ function buildPrintableHtml(script) {
 
 export function exportScriptToPrint(script) {
   const html = buildPrintableHtml(script);
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-  const url = URL.createObjectURL(blob); // robust way to load full HTML into a new tab
-  const w = window.open(url, '_blank', 'noopener,width=1024,height=768'); // keep noreferrer off
-  if (!w) {
-    // Fallback: open via temporary <a> if popup blocked
-    const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.rel = 'noopener';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  }
-  // Revoke later to free memory
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  // Hidden iframe method (works on Android Chrome too)
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url;
+
+  iframe.onload = () => {
+    try {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    } catch (err) {
+      console.error("Print failed:", err);
+    }
+  };
+
+  document.body.appendChild(iframe);
+
+  // Memory cleanup after 1 min
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    document.body.removeChild(iframe);
+  }, 60000);
 }
