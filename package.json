@@ -1,6 +1,6 @@
 {
   "name": "youtube-team-dashboard",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
@@ -11,6 +11,7 @@
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.12.1",
+    "jspdf": "^3.0.2",
     "lucide-react": "^0.510.0",
     "react": "^19.1.0",
     "react-confetti": "^6.4.0",

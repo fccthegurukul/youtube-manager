@@ -10,7 +10,16 @@ import fccInstagramLogo from '../assets/fcc_instagram_logo.jpg';
 import fccTheGurukulLogo from '../assets/fccthegurukul_logo.png';
 import resultBuzzLogo from '../assets/ResultBuzz-Logo.png';
 
+
 const socialLinks = [
+  {
+    name: 'Tricky Math & GK',
+    platform: 'YouTube',
+    url: 'https://www.youtube.com/@trickymathandgk9118',
+    followers: '1.4K+ Subscribers',
+    platformIcon: <FaYoutube className="platform-icon youtube" />,
+    iconClass: 'youtube',
+  },
   {
     name: 'FCC The Gurukul',
     platform: 'YouTube',
@@ -133,7 +142,7 @@ const socialLinks = [
 const NetworkPage = () => {
   return (
     <div className="network-page">
-      <h1 className="title">🌐 FCC The Gurukul Network</h1>
+      <h1 className="title">🌐 Our Network</h1>
       <p className="subtitle">Explore our interconnected online presence</p>
       <div className="cards-container">
         {socialLinks.map((item, index) => (

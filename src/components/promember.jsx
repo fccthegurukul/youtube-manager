@@ -101,10 +101,10 @@ export default function Promember({ profile }) {
       return;
     }
 
-    const confirmed = window.confirm(
-      'यदि आपने विडियो रिकॉर्ड करके ड्राइव में या Youtube पर अपलोड कर दिया है, तो कृपया "OK" पर क्लिक करें। अन्यथा, "Cancel" पर क्लिक करें।'
-    );
-    if (!confirmed) return;
+    // const confirmed = window.confirm(
+    //   'यदि आपने विडियो रिकॉर्ड करके ड्राइव में या Youtube पर अपलोड कर दिया है, तो कृपया "OK" पर क्लिक करें। अन्यथा, "Cancel" पर क्लिक करें।'
+    // );
+    // if (!confirmed) return;
 
     setSubmittingTaskId(taskId);
     await new Promise(res => setTimeout(res, 1500));
@@ -181,7 +181,7 @@ export default function Promember({ profile }) {
         console.error('Error inserting status history:', historyError.message);
       }
 
-      alert('Task successfully marked as recorded!');
+      // alert('Task successfully marked as recorded!');
     } catch (error) {
       alert(error.message);
       console.error('Error in handleComplete:', error);
@@ -250,10 +250,28 @@ export default function Promember({ profile }) {
 
   return (
     <section className="promember-tasks-container">
-      <header className="promember-tasks-header">
-        <FolderCheck className="promember-icon" />
-        <h2>Your Video Production Content</h2>
-      </header>
+   <header className="promember-hero fx">
+  <div className="pm-fx-bg"></div>
+  <div className="pm-fx-ring"></div>
+
+  <h2 className="pm-hero-title">
+    <span className="pm-hero-text">Video Production PDFs, PPTs &  DOCs</span>
+  </h2>
+
+  {/* Subtext: pick one of these lines or keep both as rotating copy later */}
+  <p className="pm-hero-sub">
+    Plan. Present. Publish.✨
+  </p>
+
+  {/* Unique visual: orbiting dots instead of equalizer */}
+  <div className="pm-orbit" aria-hidden="true">
+    <span className="track"></span>
+    <span className="dot d1"></span>
+    <span className="dot d2"></span>
+    <span className="dot d3"></span>
+  </div>
+</header>
+
 
       <div className="promember-filter-container">
         <label htmlFor="stage-filter">Filter by Stage: </label>

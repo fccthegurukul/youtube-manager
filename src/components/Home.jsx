@@ -98,7 +98,7 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <h2>📅 All Tasks Status</h2>
+      <h2>📅 All Videos Status</h2>
       <p>Track the progress of your video production tasks below.</p>
       
       {/* Date filter section */}
